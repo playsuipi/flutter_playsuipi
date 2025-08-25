@@ -18,5 +18,6 @@ set(flutter_playsuipi_bundled_libraries
   # Defined in ../src/CMakeLists.txt.
   # This can be changed to accommodate different builds.
   $<TARGET_FILE:flutter_playsuipi>
+  "${CMAKE_CURRENT_BINARY_DIR}/shared/libplaysuipi_core.so"
   PARENT_SCOPE
 )

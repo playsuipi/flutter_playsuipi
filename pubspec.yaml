@@ -1,7 +1,7 @@
 name: flutter_playsuipi
-description: "A new Flutter FFI plugin project."
+description: "Flutter plugin for embedding the native Play Suipi Core library."
 version: 0.0.1
-homepage:
+homepage: https://playsuipi.com
 
 environment:
   sdk: ^3.8.1
@@ -11,10 +11,10 @@ dependencies:
   flutter:
     sdk: flutter
   plugin_platform_interface: ^2.0.2
+  ffi: ^2.1.3
 
 dev_dependencies:
-  ffi: ^2.1.3
-  ffigen: ^13.0.0
+  ffigen: ^19.0.0
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
@@ -79,3 +79,17 @@ flutter:
   #
   # For details regarding fonts in packages, see
   # https://flutter.dev/to/font-from-package
+
+topics:
+  - game
+  - suipi
+  - playsuipi
+  - math
+
+ffigen:
+  output: lib/playsuipi_core.dart
+  headers:
+    entry-points:
+    - core/target/playsuipi_core.h
+  name: PlaysuipiCore
+  description: Dart bindings for Play Suipi Core lib
