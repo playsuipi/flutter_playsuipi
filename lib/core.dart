@@ -14,12 +14,13 @@ typedef GameRef = ffi.Pointer<ffi.Pointer<lib.Game>>;
 
 /// Play Suipi Core Library
 class Core {
+  static const String _pkgName = 'flutter_playsuipi';
   static const String _libName = 'playsuipi_core';
   static final lib.PlaysuipiCore _core = lib.PlaysuipiCore(Core._loadLibrary());
 
   static ffi.DynamicLibrary _loadLibrary() {
     if (Platform.isMacOS || Platform.isIOS) {
-      return ffi.DynamicLibrary.open('$_libName.framework/$_libName');
+      return ffi.DynamicLibrary.open('$_pkgName.framework/$_pkgName');
     }
     if (Platform.isAndroid || Platform.isLinux) {
       return ffi.DynamicLibrary.open('lib$_libName.so');
