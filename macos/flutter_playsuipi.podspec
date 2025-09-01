@@ -5,13 +5,13 @@
 Pod::Spec.new do |s|
   s.name             = 'flutter_playsuipi'
   s.version          = '0.0.1'
-  s.summary          = 'A new Flutter FFI plugin project.'
+  s.summary          = 'Flutter plugin for embedding the native Play Suipi Core library.'
   s.description      = <<-DESC
-A new Flutter FFI plugin project.
+Flutter plugin for embedding the native Play Suipi Core library.
                        DESC
-  s.homepage         = 'http://example.com'
+  s.homepage         = 'https://playsuipi.com'
   s.license          = { :file => '../LICENSE' }
-  s.author           = { 'Your Company' => 'email@example.com' }
+  s.author           = { 'Play Suipi LLC' => 'playsuipi@gmail.com' }
 
   # This will ensure the source files in Classes/ are included in the native
   # builds of apps using this FFI plugin. Podspec does not support relative
@@ -29,6 +29,18 @@ A new Flutter FFI plugin project.
   s.dependency 'FlutterMacOS'
 
   s.platform = :osx, '10.11'
-  s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES' }
+  s.pod_target_xcconfig = {
+    'DEFINES_MODULE' => 'YES',
+    'ENABLE_BITCODE' => 'NO',
+    'OTHER_LDFLAGS[sdk=macos*][arch=x86_64]' => '-force_load ${PODS_TARGET_SRCROOT}/core/dist/x86_64-apple-darwin/libplaysuipi_core.a',
+    'OTHER_LDFLAGS[sdk=macos*][arch=arm64]' => '-force_load ${PODS_TARGET_SRCROOT}/core/dist/aarch64-apple-darwin/libplaysuipi_core.a',
+  }
   s.swift_version = '5.0'
+
+  s.script_phase = {
+    :name => 'Build playsuipi_core library',
+    :script => 'cargo pod build --macos --manifest-path "$PODS_TARGET_SRCROOT/core/Cargo.toml"',
+    :execution_position => :before_compile,
+    :output_files => ["${PODS_TARGET_SRCROOT}/core/dist/*"],
+  }
 end
