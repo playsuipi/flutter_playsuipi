@@ -77,13 +77,13 @@ rustup target add \
 
 #### Install Apple Build Tool:
 
-Modern Apple devices can run libraries built as [Universal
-Binaries](https://developer.apple.com/documentation/apple-silicon/building-a-universal-macos-binary).
-A tool called [cargo-lipo](https://github.com/TimNN/cargo-lipo) can be used to
-build Rust code as an Apple Universal Binary.
+To easily build all the binaries required by the `flutter_playsuipi` CocoaPod,
+we use the [cargo-cocoapods](https://github.com/bbqsrc/cargo-cocoapods) tool.
+This tool will build all the binaries used in our `flutter_playsiupi.pubspec`
+configuration file.
 
 ```bash
-cargo install cargo-lipo
+cargo install cargo-cocoapods
 ```
 
 #### Install for 32-bit Targets:
