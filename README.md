@@ -110,3 +110,18 @@ For Ubuntu/Debian based distributions:
 ```bash
 sudo apt install clang cmake ninja-build pkg-config libgtk-3-dev libstdc++-12-dev
 ```
+
+### Windows Target Dependencies
+
+We require the standard Flutter framework Windows libraries, as well as the
+standard Windows libraries for Rust.
+
+* https://docs.flutter.dev/platform-integration/windows/setup
+* https://visualstudio.microsoft.com/visual-cpp-build-tools/
+
+#### Visual Studio Workloads
+
+* Desktop Development with C++:
+  - `Microsoft.VisualStudio.Workload.NativeDesktop`
+* C++ Tools for Linux and Mac Development:
+  - `Microsoft.VisualStudio.Workload.LinuxBuildTools`
