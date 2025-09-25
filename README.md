@@ -98,3 +98,15 @@ rustup target add \
     armv7-apple-ios \
     i386-apple-ios
 ```
+
+### Linux Target Dependencies
+
+We require the standard Flutter framework Linux libraries.
+
+* https://docs.flutter.dev/platform-integration/linux/setup
+
+For Ubuntu/Debian based distributions:
+
+```bash
+sudo apt install clang cmake ninja-build pkg-config libgtk-3-dev libstdc++-12-dev
+```
