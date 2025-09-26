@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
 
-import 'package:flutter_playsuipi/flutter_playsuipi.dart' as flutter_playsuipi;
+import 'package:flutter_playsuipi/core.dart';
+
+const suits = ['♣', '♦', '♥', '♠'];
 
 void main() {
   runApp(const MyApp());
@@ -15,14 +16,50 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  late int sumResult;
-  late Future<int> sumAsyncResult;
+  late GameRef gameRef;
+
+  String floorDisplay = '';
+  String handDisplay = '';
 
   @override
   void initState() {
     super.initState();
-    sumResult = flutter_playsuipi.sum(1, 2);
-    sumAsyncResult = flutter_playsuipi.sumAsync(3, 4);
+    final seed = List<int>.generate(32, (i) => 0);
+    gameRef = Core.newGame(seed);
+    getGameState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    Core.freeGame(gameRef);
+  }
+
+  void getGameState() {
+    final floor = Core.readFloor(gameRef);
+    List<String> floorValues = [];
+    for (final pile in floor) {
+      String mark = '';
+      switch (pile.mark) {
+        case Mark.empty:
+          continue;
+        case Mark.group:
+          mark = 'G';
+          break;
+        case Mark.build:
+          mark = 'B';
+          break;
+        default:
+          break;
+      }
+      floorValues.add('$mark${pile.value}');
+    }
+    final hands = Core.readHands(gameRef);
+    final handValues = hands.map((card) => '${suits[card.suit]}${card.value}');
+    setState(() {
+      floorDisplay = floorValues.join(', ');
+      handDisplay = handValues.join(', ');
+    });
   }
 
   @override
@@ -31,38 +68,22 @@ class _MyAppState extends State<MyApp> {
     const spacerSmall = SizedBox(height: 10);
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Native Packages'),
-        ),
+        appBar: AppBar(title: const Text('Flutter Play Suipi')),
         body: SingleChildScrollView(
           child: Container(
             padding: const EdgeInsets.all(10),
             child: Column(
               children: [
-                const Text(
-                  'This calls a native function through FFI that is shipped as source in the package. '
-                  'The native code is built as part of the Flutter Runner build.',
+                Text(
+                  'FLOOR:  $floorDisplay',
                   style: textStyle,
                   textAlign: TextAlign.center,
                 ),
                 spacerSmall,
                 Text(
-                  'sum(1, 2) = $sumResult',
+                  'HAND:  $handDisplay',
                   style: textStyle,
                   textAlign: TextAlign.center,
-                ),
-                spacerSmall,
-                FutureBuilder<int>(
-                  future: sumAsyncResult,
-                  builder: (BuildContext context, AsyncSnapshot<int> value) {
-                    final displayValue =
-                        (value.hasData) ? value.data : 'loading';
-                    return Text(
-                      'await sumAsync(3, 4) = $displayValue',
-                      style: textStyle,
-                      textAlign: TextAlign.center,
-                    );
-                  },
                 ),
               ],
             ),
