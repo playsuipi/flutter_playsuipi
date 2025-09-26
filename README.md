@@ -1,92 +1,127 @@
 # flutter_playsuipi
 
-A new Flutter FFI plugin project.
+Flutter plugin for embedding the native Play Suipi Core library.
+
+|             | Android | iOS   | Linux | macOS  | Windows     |
+|-------------|---------|-------|-------|--------|-------------|
+| **Support** | SDK 21+ | 12.0+ | Any   | 10.14+ | Windows 10+ |
+
+## Example
+
+```dart
+import 'package:flutter_playsuipi/core.dart';
+
+const suits = ['♣', '♦', '♥', '♠'];
+
+void showGame(GameRef game) {
+    final floor = Core.readFloor(game);
+    final floorString = floor
+        .map((pile) => pile.value)
+        .where((value) => value > 0)
+        .join(', ');
+    print('FLOOR: $floorString');
+    final hands = Core.readHands(game);
+    final handString = hands
+        .map((card) => '${suits[card.suit]}${card.value}')
+        .take(8)
+        .join(', ');
+    print('HAND: $floorString');
+}
+
+void main() {
+    final seed = List<int>.generate(32, (i) => 0);
+    final game = Core.newGame(seed);
+    showGame(game);
+    final move = '*C&3';
+    print('\nApply Move: $move\n');
+    Core.applyMove(game, move);
+    Core.nextTurn(game);
+    showGame(game);
+
+    // Free game memory
+    Core.freeGame(game);
+}
+```
 
 ## Getting Started
 
-This project is a starting point for a Flutter
-[FFI plugin](https://flutter.dev/to/ffi-package),
-a specialized package that includes native code directly invoked with Dart FFI.
+### Installing Rust
 
-## Project structure
+In order to compile this application, you will need access to a Rust compiler.
 
-This template uses the following structure:
+The easiest way to install Rust on Unix platforms is through
+[rustup](https://www.rust-lang.org/tools/install).
 
-* `src`: Contains the native source code, and a CmakeFile.txt file for building
-  that source code into a dynamic library.
-
-* `lib`: Contains the Dart code that defines the API of the plugin, and which
-  calls into the native code using `dart:ffi`.
-
-* platform folders (`android`, `ios`, `windows`, etc.): Contains the build files
-  for building and bundling the native code library with the platform application.
-
-## Building and bundling native code
-
-The `pubspec.yaml` specifies FFI plugins as follows:
-
-```yaml
-  plugin:
-    platforms:
-      some_platform:
-        ffiPlugin: true
+```bash
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 ```
 
-This configuration invokes the native build for the various target platforms
-and bundles the binaries in Flutter applications using these FFI plugins.
+You will need to install the Rust compiler targets for any platforms you wish
+to use.
 
-This can be combined with dartPluginClass, such as when FFI is used for the
-implementation of one platform in a federated plugin:
+#### Install Android Targets:
 
-```yaml
-  plugin:
-    implements: some_other_plugin
-    platforms:
-      some_platform:
-        dartPluginClass: SomeClass
-        ffiPlugin: true
+```bash
+rustup target add \
+    aarch64-linux-android \
+    x86_64-linux-android
 ```
 
-A plugin can have both FFI and method channels:
+#### Install iOS Targets:
 
-```yaml
-  plugin:
-    platforms:
-      some_platform:
-        pluginClass: SomeName
-        ffiPlugin: true
+```bash
+rustup target add \
+    aarch64-apple-ios \
+    x86_64-apple-ios
 ```
 
-The native build systems that are invoked by FFI (and method channel) plugins are:
+#### Install Apple Build Tool:
 
-* For Android: Gradle, which invokes the Android NDK for native builds.
-  * See the documentation in android/build.gradle.
-* For iOS and MacOS: Xcode, via CocoaPods.
-  * See the documentation in ios/flutter_playsuipi.podspec.
-  * See the documentation in macos/flutter_playsuipi.podspec.
-* For Linux and Windows: CMake.
-  * See the documentation in linux/CMakeLists.txt.
-  * See the documentation in windows/CMakeLists.txt.
+To easily build all the binaries required by the `flutter_playsuipi` CocoaPod,
+we use the [cargo-cocoapods](https://github.com/bbqsrc/cargo-cocoapods) tool.
+This tool will build all the binaries used in our `flutter_playsiupi.pubspec`
+configuration file.
 
-## Binding to native code
+```bash
+cargo install cargo-cocoapods
+```
 
-To use the native code, bindings in Dart are needed.
-To avoid writing these by hand, they are generated from the header file
-(`src/flutter_playsuipi.h`) by `package:ffigen`.
-Regenerate the bindings by running `dart run ffigen --config ffigen.yaml`.
+#### Install for 32-bit Targets:
 
-## Invoking native code
+If you are trying to build for older 32-bit devices, you will need to install
+some additional 32-bit targets.
 
-Very short-running native functions can be directly invoked from any isolate.
-For example, see `sum` in `lib/flutter_playsuipi.dart`.
+```bash
+rustup target add \
+    armv7-linux-androideabi \
+    i686-linux-android \
+    armv7-apple-ios \
+    i386-apple-ios
+```
 
-Longer-running functions should be invoked on a helper isolate to avoid
-dropping frames in Flutter applications.
-For example, see `sumAsync` in `lib/flutter_playsuipi.dart`.
+### Linux Target Dependencies
 
-## Flutter help
+We require the standard Flutter framework Linux libraries.
 
-For help getting started with Flutter, view our
-[online documentation](https://docs.flutter.dev), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+* https://docs.flutter.dev/platform-integration/linux/setup
 
+For Ubuntu/Debian based distributions:
+
+```bash
+sudo apt install clang cmake ninja-build pkg-config libgtk-3-dev libstdc++-12-dev
+```
+
+### Windows Target Dependencies
+
+We require the standard Flutter framework Windows libraries, as well as the
+standard Windows libraries for Rust.
+
+* https://docs.flutter.dev/platform-integration/windows/setup
+* https://visualstudio.microsoft.com/visual-cpp-build-tools/
+
+#### Visual Studio Workloads
+
+* Desktop Development with C++:
+  - `Microsoft.VisualStudio.Workload.NativeDesktop`
+* C++ Tools for Linux and Mac Development:
+  - `Microsoft.VisualStudio.Workload.LinuxBuildTools`
