@@ -1,0 +1,24 @@
+name: Dart static analysis checks
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  analysis:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - uses: subosito/flutter-action@v2
+      with:
+        channel: 'stable'
+    - name: Install dependencies
+      run: flutter pub get
+    - name: Run dart analyze lib
+      run: dart analyze lib
+    - name: Run dart format lib
+      run: dart format --set-exit-if-changed --output none lib
