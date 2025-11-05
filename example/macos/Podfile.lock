@@ -14,7 +14,7 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral
 
 SPEC CHECKSUMS:
-  flutter_playsuipi: 6a1a83c9ea5bfd5436a814f8844356780a2a33ea
+  flutter_playsuipi: 4cc0e15e035aac6f8d96eae27fa7186ad81d7639
   FlutterMacOS: d0db08ddef1a9af05a5ec4b724367152bb0500b1
 
 PODFILE CHECKSUM: 54d867c82ac51cbd61b565781b9fada492027009

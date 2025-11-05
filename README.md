@@ -75,17 +75,6 @@ rustup target add \
     x86_64-apple-ios
 ```
 
-#### Install Apple Build Tool:
-
-To easily build all the binaries required by the `flutter_playsuipi` CocoaPod,
-we use the [cargo-cocoapods](https://github.com/bbqsrc/cargo-cocoapods) tool.
-This tool will build all the binaries used in our `flutter_playsiupi.pubspec`
-configuration file.
-
-```bash
-cargo install cargo-cocoapods
-```
-
 #### Install for 32-bit Targets:
 
 If you are trying to build for older 32-bit devices, you will need to install

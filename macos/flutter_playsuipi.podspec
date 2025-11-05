@@ -32,15 +32,18 @@ Flutter plugin for embedding the native Play Suipi Core library.
   s.pod_target_xcconfig = {
     'DEFINES_MODULE' => 'YES',
     'ENABLE_BITCODE' => 'NO',
-    'OTHER_LDFLAGS[sdk=macos*][arch=x86_64]' => '-force_load ${PODS_TARGET_SRCROOT}/core/dist/x86_64-apple-darwin/libplaysuipi_core.a',
-    'OTHER_LDFLAGS[sdk=macos*][arch=arm64]' => '-force_load ${PODS_TARGET_SRCROOT}/core/dist/aarch64-apple-darwin/libplaysuipi_core.a',
+    'OTHER_LDFLAGS[sdk=macos*][arch=x86_64]' => '-force_load ${PODS_TARGET_SRCROOT}/core/target/x86_64-apple-darwin/release/libplaysuipi_core.a',
+    'OTHER_LDFLAGS[sdk=macos*][arch=arm64]' => '-force_load ${PODS_TARGET_SRCROOT}/core/target/aarch64-apple-darwin/release/libplaysuipi_core.a',
   }
   s.swift_version = '5.0'
 
   s.script_phase = {
     :name => 'Build playsuipi_core library',
-    :script => 'cargo pod build --macos --manifest-path "$PODS_TARGET_SRCROOT/core/Cargo.toml"',
+    :script => 'cd ${PODS_TARGET_SRCROOT}/core && make macos',
     :execution_position => :before_compile,
-    :output_files => ["${PODS_TARGET_SRCROOT}/core/dist/*"],
+    :output_files => [
+      "${PODS_TARGET_SRCROOT}/core/target/x86_64-apple-darwin/release/libplaysuipi_core.a",
+      "${PODS_TARGET_SRCROOT}/core/target/aarch64-apple-darwin/release/libplaysuipi_core.a",
+    ],
   }
 end
