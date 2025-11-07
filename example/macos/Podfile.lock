@@ -1,5 +1,5 @@
 PODS:
-  - flutter_playsuipi (0.0.1):
+  - flutter_playsuipi (1.0.2):
     - FlutterMacOS
   - FlutterMacOS (1.0.0)
 
@@ -14,7 +14,7 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral
 
 SPEC CHECKSUMS:
-  flutter_playsuipi: 4cc0e15e035aac6f8d96eae27fa7186ad81d7639
+  flutter_playsuipi: 0c82973d074075c6b0597cfffc536a71823cb096
   FlutterMacOS: d0db08ddef1a9af05a5ec4b724367152bb0500b1
 
 PODFILE CHECKSUM: 54d867c82ac51cbd61b565781b9fada492027009

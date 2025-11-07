@@ -1,6 +1,6 @@
 PODS:
   - Flutter (1.0.0)
-  - flutter_playsuipi (0.0.1):
+  - flutter_playsuipi (1.0.2):
     - Flutter
 
 DEPENDENCIES:
@@ -15,7 +15,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
-  flutter_playsuipi: 3b646abdea302b79619bd0e491b7739f844b6fc7
+  flutter_playsuipi: ac47261e88507f64adb5a24af909f4d16d0d5465
 
 PODFILE CHECKSUM: 3c63482e143d1b91d2d2560aee9fb04ecc74ac7e
 
