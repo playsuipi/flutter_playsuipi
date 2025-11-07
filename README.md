@@ -56,6 +56,13 @@ The easiest way to install Rust on Unix platforms is through
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 ```
 
+The Play Suipi `core` library requires the Rust `nightly` toolchain for iOS
+builds. You can install that with this command:
+
+```bash
+rustup toolchain install nightly
+```
+
 You will need to install the Rust compiler targets for any platforms you wish
 to use.
 
@@ -70,22 +77,18 @@ rustup target add \
 #### Install iOS Targets:
 
 ```bash
-rustup target add \
+rustup +nightly target add \
     aarch64-apple-ios \
+    aarch64-apple-ios-sim \
     x86_64-apple-ios
 ```
 
-#### Install for 32-bit Targets:
-
-If you are trying to build for older 32-bit devices, you will need to install
-some additional 32-bit targets.
+#### Install macOS Targets:
 
 ```bash
 rustup target add \
-    armv7-linux-androideabi \
-    i686-linux-android \
-    armv7-apple-ios \
-    i386-apple-ios
+    aarch64-apple-darwin \
+    x86_64-apple-darwin
 ```
 
 ### Linux Target Dependencies
