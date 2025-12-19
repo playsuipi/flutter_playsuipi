@@ -4,7 +4,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'flutter_playsuipi'
-  s.version          = '1.0.2'
+  s.version          = '1.1.0'
   s.summary          = 'Flutter plugin for embedding the native Play Suipi Core library.'
   s.description      = <<-DESC
 Flutter plugin for embedding the native Play Suipi Core library.

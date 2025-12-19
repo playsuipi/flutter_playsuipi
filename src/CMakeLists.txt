@@ -12,7 +12,7 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(Corrosion)
 
-project(flutter_playsuipi_library VERSION 1.0.2 LANGUAGES C)
+project(flutter_playsuipi_library VERSION 1.1.0 LANGUAGES C)
 
 corrosion_import_crate(MANIFEST_PATH ../core/Cargo.toml)
 
