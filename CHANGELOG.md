@@ -1,3 +1,8 @@
+## 1.2.0
+
+* Bump core library to 1.2.0:
+   - Add point cards are not dealt to the floor rule.
+
 ## 1.1.0
 
 * Bump core library to 1.1.0:
